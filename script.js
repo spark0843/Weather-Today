@@ -31,29 +31,17 @@ function loadAPI() {
             feelsLike.textContent = Math.round(data.current.feels_like) + "°C";
 
             // Wind Speed
-            wind_speed.textContent = Math.round((data.current.wind_speed * 18) / 5) + "km/h";
-            if (!isNaN(wind_gust)) {
-                wind_gust.textContent = Math.round((data.current.wind_gust * 18) / 5) + "km/h";
+            wind_speed.textContent = Math.round((data.current.wind_speed * 18) / 5) + " km/h";
+            if (!isNaN(data.current.wind_gust)) {
+                wind_gust.textContent = Math.round((data.current.wind_gust * 18) / 5) + " km/h";
             }
             else {
                 document.getElementById("wind-gust").style.display = "none";
             }
             
             // Wind Direction
-            let dir;
             let deg = data.current.wind_deg;
-            if (deg >= 90 && deg < 180) {
-                dir = "East";
-            }
-            else if (deg >= 180 && deg < 270) {
-                dir = "South";
-            }
-            else if (deg >= 270 && deg < 360) {
-                dir = "West";
-            }
-            else {
-                dir = "North";
-            }
+            let dir = getDirection(deg);
             wind_dir.textContent = dir; //Math.round(data.current.wind_deg)
 
             // Sunrise, Sunset
@@ -73,36 +61,53 @@ function loadAPI() {
     });
 }
 
-function epochToLocalTime(epoch)
-{
+function getDirection(deg) {
+    if (deg >= 340 && deg < 20) {
+        return "North";
+    }
+    else if (deg >= 20 && deg < 70) {
+        return "North East";
+    }
+    else if (deg >= 70 && deg < 110) {
+        return "East";
+    }
+    else if (deg >= 110 && deg < 160) {
+        return "South East";
+    }
+    else if (deg >= 160 && deg < 200) {
+        return "South";
+    }
+    else if (deg >= 200 && deg < 240) {
+        return "South West";
+    }
+    else if (deg >= 240 && deg < 290) {
+        return "West";
+    }
+    else if (deg >= 290 && deg < 340) {
+        return "North West";
+    }
+}
+
+function epochToLocalTime(epoch) {
     let dt, hrs, mins, isPM;
     dt = new Date(epoch * 1000);
     hrs = dt.getHours();
     mins = dt.getMinutes();
 
-    hrs=24;
-
     if (hrs >= 12 && hrs < 24) {
         isPM = true;
     }
-    if (hrs >= 13) {
-        hrs -= 12;
-    }
-    if (!hrs) {
-        hrs = 12;
-    }
+    hrs = (hrs % 12) || 12;
+    // if (hrs >= 13) {
+    //     hrs -= 12;
+    // }
+    // if (!hrs) {
+    //     hrs = 12;
+    // }
     mins = "0" + mins;
 
     lt = hrs + ":" + mins.substr(-2) + (isPM ? " PM" : " AM");
     return lt;
-
-    // let dt, hrs, mins;
-    // dt = new Date(epoch * 1000);
-    // hrs = "0" + dt.getHours();
-    // mins = "0" + dt.getMinutes();
-
-    // lt = hrs.substr(-2) + ":" + mins.substr(-2);
-    // return lt;
 }
 
 function getLocation() {
