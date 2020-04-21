@@ -9,18 +9,95 @@ const sunset = document.getElementById("dv6");
 const city_obj = document.getElementById("city");
 const status_obj = document.getElementById("status");
 const desc_img = document.getElementById("desc-img");
+const city = document.getElementById("city");
+const input_city = document.getElementById("input-city");
+
+city_obj.addEventListener("click", () => {
+    city.classList.add("inactive");
+    input_city.classList.remove("inactive");
+    input_city.value = city_obj.textContent;
+    input_city.focus();
+    input_city.select();
+    
+});
+
+input_city.addEventListener("focusout", () => {
+    updateCity();
+});
+
+function updateCity() {
+    city.classList.remove("inactive");
+    input_city.classList.add("inactive");
+    if (input_city.value != city_obj.textContent)
+    {
+        loadAPI(true);
+    }
+}
+
+document.addEventListener("keyup", event => {
+    if (event.code === "Enter") {
+        if (!input_city.classList.contains("inactive")) {
+            updateCity();
+        }
+    }
+});
 
 var localStorage = window.localStorage;
 
 loadAPI();
 
-function loadAPI() {
+function loadAPI(opt) {
+
+    if (opt == true)
+    {
+        let city = input_city.value;
+        let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key;
+
+        makeAJAXRequest("GET", url).then(data => {
+            // Timezone, Status
+            city_obj.textContent = input_city.value;
+            status_obj.textContent = data.weather[0].description;
+            desc_img.src = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+
+            // Temperature, Feels Like
+            temp.textContent = Math.round(data.main.temp) + "°C";
+            feelsLike.textContent = Math.round(data.main.feels_like) + "°C";
+
+            // Wind Speed
+            wind_speed.textContent = Math.round((data.wind.speed * 18) / 5) + " km/h";
+            if (!isNaN(data.wind.gust)) {
+                wind_gust.textContent = Math.round((data.wind.gust * 18) / 5) + " km/h";
+            }
+            else {
+                document.getElementById("wind-gust").style.display = "none";
+            }
+            
+            // Wind Direction
+            let deg = data.wind.deg;
+            let dir = deg ? getDirection(deg) : "N/A";
+            wind_dir.textContent = dir; //Math.round(data.current.wind_deg)
+
+            // Sunrise, Sunset
+            let sr, ss;
+
+            sr = epochToLocalTime(data.sys.sunrise);
+            ss = epochToLocalTime(data.sys.sunset);
+
+            sunrise.textContent = sr;
+            sunset.textContent = ss;
+        }).catch(err => {
+            console.log(err);
+        });
+
+        return;
+    }
+
     getLocation().then(data => {
         let latitude = data.latitude;
         let longitude = data.longitude;
         let city = data.city;
         let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + key;
-    
+
         makeAJAXRequest("GET", url).then(data => {
             // Timezone, Status
             city_obj.textContent = city;
@@ -63,7 +140,7 @@ function loadAPI() {
 }
 
 function getDirection(deg) {
-    if (deg >= 340 && deg < 20) {
+    if ((deg >= 340 && deg <= 360) || (deg >= 0 && deg < 20)) {
         return "North";
     }
     else if (deg >= 20 && deg < 70) {
@@ -111,7 +188,7 @@ function getLocation() {
         makeAJAXRequest("GET", url).then(data => {
             resolve({latitude: data.latitude, longitude: data.longitude, city: data.city});
         }).catch(() => {
-            // Get location based off user permission
+            // Get location based off user permission instead if API is down
             if (navigator.geolocation) {
                 let timestamp = localStorage.getItem("timestamp");
                 if (timestamp && (Date.now() - timestamp) < 600000000) { // 600000 seconds

@@ -45,6 +45,20 @@ h1 {
     margin: 0;
 }
 
+#city:hover {
+    color: red;
+    transition: color 0.5s ease-in-out;
+}
+
+#input-city {
+    margin-top: .25em;
+    height: 24.7px;
+}
+
+.inactive {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
     #desc {
         margin-top: .5em;
