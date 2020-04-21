@@ -1,4 +1,14 @@
 const key = "b3cc305bb205466c20e6b12d5aef231f";
+const temp = document.getElementById("dv0");
+const feelsLike = document.getElementById("dv1");
+const wind_speed = document.getElementById("dv2");
+const wind_gust = document.getElementById("dv3");
+const wind_dir = document.getElementById("dv4");
+const sunrise = document.getElementById("dv5");
+const sunset = document.getElementById("dv6");
+const city_obj = document.getElementById("city");
+const status_obj = document.getElementById("status");
+const desc_img = document.getElementById("desc-img");
 
 var localStorage = window.localStorage;
 
@@ -8,23 +18,14 @@ function loadAPI() {
     getLocation().then(data => {
         let latitude = data.latitude;
         let longitude = data.longitude;
-        let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + key;
         let city = data.city;
-
+        let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + key;
+    
         makeAJAXRequest("GET", url).then(data => {
-            let temp = document.getElementById("dv0");
-            let feelsLike = document.getElementById("dv1");
-            let wind_speed = document.getElementById("dv2");
-            let wind_gust = document.getElementById("dv3");
-            let wind_dir = document.getElementById("dv4");
-            let sunrise = document.getElementById("dv5");
-            let sunset = document.getElementById("dv6");
-            let city_obj = document.getElementById("city");
-            let status_obj = document.getElementById("status");
-
             // Timezone, Status
             city_obj.textContent = city;
             status_obj.textContent = data.current.weather[0].description;
+            desc_img.src = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png";
 
             // Temperature, Feels Like
             temp.textContent = Math.round(data.current.temp) + "°C";
@@ -89,7 +90,7 @@ function getDirection(deg) {
 }
 
 function epochToLocalTime(epoch) {
-    let dt, hrs, mins, isPM;
+    let dt, hrs, mins, isPM = false;
     dt = new Date(epoch * 1000);
     hrs = dt.getHours();
     mins = dt.getMinutes();
@@ -98,16 +99,9 @@ function epochToLocalTime(epoch) {
         isPM = true;
     }
     hrs = (hrs % 12) || 12;
-    // if (hrs >= 13) {
-    //     hrs -= 12;
-    // }
-    // if (!hrs) {
-    //     hrs = 12;
-    // }
     mins = "0" + mins;
 
-    lt = hrs + ":" + mins.substr(-2) + (isPM ? " PM" : " AM");
-    return lt;
+    return hrs + ":" + mins.substr(-2) + (isPM ? " PM" : " AM");
 }
 
 function getLocation() {
@@ -116,34 +110,35 @@ function getLocation() {
         let url = "https://api.ipgeolocation.io/ipgeo?apiKey=1531619570aa43a49de0298f9156153c"
         makeAJAXRequest("GET", url).then(data => {
             resolve({latitude: data.latitude, longitude: data.longitude, city: data.city});
-        }).catch(err => {
-            reject(err);
+        }).catch(() => {
+            // Get location based off user permission
+            if (navigator.geolocation) {
+                let timestamp = localStorage.getItem("timestamp");
+                if (timestamp && (Date.now() - timestamp) < 600000000) { // 600000 seconds
+                    let latitude = localStorage.getItem("latitude");
+                    let longitude = localStorage.getItem("longitude");
+                    let city = localStorage.getItem("city");
+                    resolve({latitude: latitude, longitude: longitude, city: city});
+                }
+                else
+                {
+                    navigator.geolocation.getCurrentPosition(pos => {
+                        let latitude = pos.coords.latitude;
+                        let longitude = pos.coords.longitude;
+                        let city = "(" + latitude + ", " + longitude + ")";
+                        localStorage.setItem("timestamp", Date.now());
+                        localStorage.setItem("latitude", latitude);
+                        localStorage.setItem("longitude", longitude);
+                        localStorage.setItem("city", city);
+                        resolve({latitude: latitude, longitude: longitude, city: city});
+                    }, (err) => {
+                        reject("ERROR NO. " + err.code + ": " + err.message);
+                    });
+                }
+            } else {
+                reject("Geolocation is not supported by this browser.");
+            }
         });
-
-        // Get location based off user permission
-        // if (navigator.geolocation) {
-        //     let timestamp = localStorage.getItem("timestamp");
-        //     if (timestamp && (Date.now() - timestamp) < 600000000) { // 600000 seconds
-        //         let latitude = localStorage.getItem("latitude");
-        //         let longitude = localStorage.getItem("longitude");
-        //         resolve({latitude: latitude, longitude: longitude});
-        //     }
-        //     else
-        //     {
-        //         navigator.geolocation.getCurrentPosition(pos => {
-        //             let latitude = pos.coords.latitude;
-        //             let longitude = pos.coords.longitude;
-        //             localStorage.setItem("timestamp", Date.now());
-        //             localStorage.setItem("latitude", latitude);
-        //             localStorage.setItem("longitude", longitude);
-        //             resolve({latitude: latitude, longitude: longitude});
-        //         }, (err) => {
-        //             reject("ERROR NO. " + err.code + ": " + err.message);
-        //         });
-        //     }
-        // } else {
-        //     reject("Geolocation is not supported by this browser.");
-        // }
     });
 }
 
@@ -166,7 +161,3 @@ function makeAJAXRequest(method, url, data){
         }
     });
 }
-
-// function kelvinToCelsius(kv) {
-//     return kv - 273.15;
-// }

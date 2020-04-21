@@ -13,7 +13,7 @@
     <div class="container">
         <h1>Weather Today</h1>
 
-        <div class="container">
+        <div class="container" id="city-container">
             <div class="row justify-content-md-center">
                 <div class="col-md-auto">
                     <span class="label">City</span>
@@ -22,11 +22,14 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container" id="temp-container">
             <div class="row justify-content-md-center">
-                <div class="col-md-auto">
+                <div class="col-md-auto" id="desc">
                     <span class="label">Description</span>
                     <span class="value" id="status">...</span>
+                </div>
+                <div class="col-md-auto">
+                    <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="" id="desc-img">
                 </div>
             </div>
         </div>
@@ -46,7 +49,7 @@
 
         <div class="container">
             <div class="row justify-content-md-center">
-                <div class="col-md-auto">      
+                <div class="col-md-auto" id="wind-container">      
                     <div class="row justify-content-md-center">
                         <div class="col-md-auto" id="wind-speed">
                             <span class="label">Wind Speed</span>

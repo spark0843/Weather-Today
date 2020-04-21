@@ -11,7 +11,8 @@ body {
 h1 {
     font-family: "Girassol", cursive;
     font-size: 3em;
-    margin: .5em 0 .5em 0;
+    font-weight: 300;
+    margin: .5em 0 .3em 0;
     text-align: center;
 }
 
@@ -32,8 +33,24 @@ h1 {
     text-align: center;
 }
 
-
-
 #status {
     text-transform: capitalize;
 }
+
+#desc {
+    margin: auto 0;
+}
+
+#city-container, #temp-container {
+    margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+    #desc {
+        margin-top: .5em;
+    }
+    #wind-container {
+        margin-bottom: .5em;
+    }
+}
+  
