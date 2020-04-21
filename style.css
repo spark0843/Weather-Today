@@ -2,7 +2,6 @@ body {
     background-color: #2670AF;
     color: white;
     margin: 0;
-    text-align: center;
     -webkit-user-select: none;  /* Chrome all / Safari all */
     -moz-user-select: none;     /* Firefox all */
     -ms-user-select: none;      /* IE 10+ */
@@ -10,47 +9,31 @@ body {
 }
 
 h1 {
-    font-family: 'Girassol', cursive;
+    font-family: "Girassol", cursive;
     font-size: 3em;
     margin: .5em 0 .5em 0;
+    text-align: center;
 }
 
-#timezone-div {
-    width: 200px;
-    margin: auto;
-    padding-top: .5em;
-    padding-bottom: 1em;
-}
-
-#weather-data {
-    width: 200px;
-    margin: auto;
-    margin-bottom: 2em;
-}
-
-#weather-data2 {
-    width: 400px;
-    margin: auto;
-    margin-bottom: 2em;
-}
-
-#weather-data3 {
-    width: 250px;
-    margin: auto;
-}
-
-.label, .timezone-label {
-    font-family: 'Roboto', sans-serif;
+.label, .city-label {
+    font-family: "Roboto", sans-serif;
     font-size: 1em;
     font-weight: 100;
     display: block;
 }
 
-.value, .timezone-value {
+.value, .city-value {
     font-size: 1.5em;
     font-weight: 300;
 }
 
-.row {
+.container {
     margin-bottom: .75em;
+    text-align: center;
+}
+
+
+
+#status {
+    text-transform: capitalize;
 }
