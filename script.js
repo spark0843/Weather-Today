@@ -188,7 +188,7 @@ function getLocation() {
         makeAJAXRequest("GET", url).then(data => {
             resolve({latitude: data.latitude, longitude: data.longitude, city: data.city});
         }).catch(() => {
-            // Get location based off user permission instead if API is down
+            // Prompt user for permission to retrieve location through browser instead if API is down or blocked
             if (navigator.geolocation) {
                 let timestamp = localStorage.getItem("timestamp");
                 if (timestamp && (Date.now() - timestamp) < 600000000) { // 600000 seconds
@@ -202,7 +202,7 @@ function getLocation() {
                     navigator.geolocation.getCurrentPosition(pos => {
                         let latitude = pos.coords.latitude;
                         let longitude = pos.coords.longitude;
-                        let city = "(" + latitude + ", " + longitude + ")";
+                        let city = "(" + latitude.toFixed(2) + ", " + longitude.toFixed(2) + ")";
                         localStorage.setItem("timestamp", Date.now());
                         localStorage.setItem("latitude", latitude);
                         localStorage.setItem("longitude", longitude);
