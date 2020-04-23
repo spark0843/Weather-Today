@@ -191,7 +191,7 @@ function getLocation() {
             // Prompt user for permission to retrieve location through browser instead if API is down or blocked
             if (navigator.geolocation) {
                 let timestamp = localStorage.getItem("timestamp");
-                if (timestamp && (Date.now() - timestamp) < 600000000) { // 600000 seconds
+                if (timestamp && (Date.now() - timestamp) < 6000000) { // 6000 seconds = 100 minutes
                     let latitude = localStorage.getItem("latitude");
                     let longitude = localStorage.getItem("longitude");
                     let city = localStorage.getItem("city");
