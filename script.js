@@ -1,4 +1,3 @@
-const key = "b3cc305bb205466c20e6b12d5aef231f";
 const temp = document.getElementById("dv0");
 const feelsLike = document.getElementById("dv1");
 const wind_speed = document.getElementById("dv2");
@@ -51,7 +50,7 @@ function loadAPI(opt) {
     if (opt == true)
     {
         let city = input_city.value;
-        let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key;
+        let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key1;
 
         makeAJAXRequest("GET", url).then(data => {
             // Timezone, Status
@@ -96,7 +95,7 @@ function loadAPI(opt) {
         let latitude = data.latitude;
         let longitude = data.longitude;
         let city = data.city;
-        let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + key;
+        let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + key1;
 
         makeAJAXRequest("GET", url).then(data => {
             // Timezone, Status
@@ -184,7 +183,7 @@ function epochToLocalTime(epoch) {
 function getLocation() {
     return new Promise((resolve, reject) => {
         // Get location based off external IP address
-        let url = "https://api.ipgeolocation.io/ipgeo?apiKey=1531619570aa43a49de0298f9156153c"
+        let url = "https://api.ipgeolocation.io/ipgeo?apiKey=" + key2;
         makeAJAXRequest("GET", url).then(data => {
             resolve({latitude: data.latitude, longitude: data.longitude, city: data.city});
         }).catch(() => {
