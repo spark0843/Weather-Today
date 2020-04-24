@@ -1,3 +1,5 @@
+const key1 = config.key1;
+const key2 = config.key2;
 const temp = document.getElementById("dv0");
 const feelsLike = document.getElementById("dv1");
 const wind_speed = document.getElementById("dv2");
