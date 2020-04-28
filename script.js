@@ -58,7 +58,7 @@ function loadAPI(opt) {
             // Timezone, Status
             city_obj.textContent = input_city.value;
             status_obj.textContent = data.weather[0].description;
-            desc_img.src = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+            desc_img.src = "/images/" + data.weather[0].icon + "@2x.png";
 
             // Temperature, Feels Like
             temp.textContent = Math.round(data.main.temp) + "°C";
