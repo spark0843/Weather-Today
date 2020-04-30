@@ -1,3 +1,4 @@
+// declare constants
 const key1 = config.key1;
 const key2 = config.key2;
 const temp = document.getElementById("dv0");
