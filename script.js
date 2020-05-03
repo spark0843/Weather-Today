@@ -30,8 +30,8 @@ input_city.addEventListener("focusout", () => {
 });
 
 // focus out of text input when enter is pressed
-document.addEventListener("keyup", event => {
-    if (event.code === "Enter") {
+document.addEventListener("keydown", event => {
+    if (event.keyCode === 13) {
         if (!input_city.classList.contains("inactive")) {
             document.body.focus();
             input_city.blur();
@@ -58,7 +58,7 @@ function updateUI(data) {
     // City name
     let city = data.name;
     if (!city) return; // invalid city
-    //console.log(" | " + city)
+    
     // Timezone, Status
     city_obj.textContent = city;
     status_obj.textContent = data.weather[0].description;
@@ -92,7 +92,9 @@ function updateUI(data) {
     sunset.textContent = ss;
 }
 
-function getWeatherData(city) {
+function getWeatherData(city, coords) {
+    if (coords)
+    console.log(city);
     let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key1;
 
     makeAJAXRequest("GET", url).then(data => {
@@ -111,7 +113,7 @@ function loadAPI(opt) {
     }
     else {
         getLocation().then(data => { // first time load
-            getWeatherData(data.city);
+            getWeatherData(data.city, data.coords);
         }).catch(err => {
             console.log(err);
         });
@@ -174,7 +176,7 @@ function getLocation() {
                     let latitude = localStorage.getItem("latitude");
                     let longitude = localStorage.getItem("longitude");
                     let city = localStorage.getItem("city");
-                    resolve({latitude: latitude, longitude: longitude, city: city});
+                    resolve({latitude: latitude, longitude: longitude, city: city, coords: true});
                 }
                 else
                 {
@@ -186,7 +188,7 @@ function getLocation() {
                         localStorage.setItem("latitude", latitude);
                         localStorage.setItem("longitude", longitude);
                         localStorage.setItem("city", city);
-                        resolve({latitude: latitude, longitude: longitude, city: city});
+                        resolve({latitude: latitude, longitude: longitude, city: city, coords: true});
                     }, (err) => {
                         reject("ERROR NO. " + err.code + ": " + err.message);
                     });
