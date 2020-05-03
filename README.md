@@ -1,7 +1,7 @@
 # Weather Today
 This web application uses AJAX to send GET requests to OpenWeatherMap API and gets current weather data (description, temperatures, feels like, wind speed/direction, sunrise, and sunset).<br />
 
-![image info](./images/screenshot.jpg)
+![image info](screenshot.jpg)
 
 APIs used:<br />
 <ul>
