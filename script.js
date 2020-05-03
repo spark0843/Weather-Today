@@ -1,3 +1,5 @@
+/* maybe rewrite this */
+
 // declare constants
 const key1 = config.key1;
 const key2 = config.key2;
@@ -92,16 +94,31 @@ function updateUI(data) {
     sunset.textContent = ss;
 }
 
-function getWeatherData(city, coords) {
-    if (coords)
-    console.log(city);
-    let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key1;
-
+function sendRequestAndUpdate(url) {
     makeAJAXRequest("GET", url).then(data => {
         updateUI(data);
     }).catch(err => {
         console.log(err);
     });
+}
+
+function getWeatherData(city, coords) {
+    let city_type = typeof city;
+    if (coords && city_type != "string") { // lat and lon specified
+        console.log(city);
+        let url = "https://us1.locationiq.com/v1/reverse.php?key=1ace468b6ab00c&lat=" + city.lat + "&lon=" + city.lon + "&format=json";
+        makeAJAXRequest("GET", url).then(data => {
+            city = data.address.city;
+            url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key1;
+            localStorage.setItem("city", city);
+            sendRequestAndUpdate(url);
+        }).catch(err => {
+            console.log(err);
+        });
+    } else { // city name specified
+        let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key1;
+        sendRequestAndUpdate(url);
+    }
 }
 
 function loadAPI(opt) {
@@ -181,13 +198,12 @@ function getLocation() {
                 else
                 {
                     navigator.geolocation.getCurrentPosition(pos => {
-                        let latitude = pos.coords.latitude;
-                        let longitude = pos.coords.longitude;
-                        let city = "(" + latitude.toFixed(2) + ", " + longitude.toFixed(2) + ")";
+                        let latitude = pos.coords.latitude.toFixed(2);
+                        let longitude = pos.coords.longitude.toFixed(2);
+                        let city = { lat: latitude, lon: longitude };
                         localStorage.setItem("timestamp", Date.now());
                         localStorage.setItem("latitude", latitude);
                         localStorage.setItem("longitude", longitude);
-                        localStorage.setItem("city", city);
                         resolve({latitude: latitude, longitude: longitude, city: city, coords: true});
                     }, (err) => {
                         reject("ERROR NO. " + err.code + ": " + err.message);
