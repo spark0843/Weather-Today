@@ -14,6 +14,7 @@ const desc_img = document.getElementById("desc-img");
 const city = document.getElementById("city");
 const input_city = document.getElementById("input-city");
 
+// change location by clicking
 city_obj.addEventListener("click", () => {
     city.classList.add("inactive");
     input_city.classList.remove("inactive");
@@ -23,122 +24,98 @@ city_obj.addEventListener("click", () => {
     
 });
 
+// update location
 input_city.addEventListener("focusout", () => {
     updateCity();
 });
 
-function updateCity() {
-    city.classList.remove("inactive");
-    input_city.classList.add("inactive");
-    if (input_city.value != city_obj.textContent)
-    {
-        loadAPI(true);
-    }
-}
-
+// focus out of text input when enter is pressed
 document.addEventListener("keyup", event => {
     if (event.code === "Enter") {
         if (!input_city.classList.contains("inactive")) {
-            updateCity();
+            document.body.focus();
+            input_city.blur();
         }
     }
 });
+
+function updateCity() {
+    if (input_city.value) {
+        city.classList.remove("inactive");
+        input_city.classList.add("inactive");
+        if (input_city.value != city_obj.textContent) {
+            loadAPI(true);
+        }
+    }
+
+}
 
 var localStorage = window.localStorage;
 
 loadAPI();
 
-function loadAPI(opt) {
+function updateUI(data) {
+    // City name
+    let city = data.name;
+    if (!city) return; // invalid city
+    //console.log(" | " + city)
+    // Timezone, Status
+    city_obj.textContent = city;
+    status_obj.textContent = data.weather[0].description;
+    desc_img.src = "images/" + data.weather[0].icon + "@2x.png";
 
-    if (opt == true)
-    {
-        let city = input_city.value;
-        let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key1;
+    // Temperature, Feels Like
+    temp.textContent = Math.round(data.main.temp) + "°C";
+    feelsLike.textContent = Math.round(data.main.feels_like) + "°C";
 
-        makeAJAXRequest("GET", url).then(data => {
-            // Timezone, Status
-            city_obj.textContent = input_city.value;
-            status_obj.textContent = data.weather[0].description;
-            desc_img.src = "images/" + data.weather[0].icon + "@2x.png";
-
-            // Temperature, Feels Like
-            temp.textContent = Math.round(data.main.temp) + "°C";
-            feelsLike.textContent = Math.round(data.main.feels_like) + "°C";
-
-            // Wind Speed
-            wind_speed.textContent = Math.round((data.wind.speed * 18) / 5) + " km/h";
-            if (!isNaN(data.wind.gust)) {
-                wind_gust.textContent = Math.round((data.wind.gust * 18) / 5) + " km/h";
-            }
-            else {
-                document.getElementById("wind-gust").style.display = "none";
-            }
-            
-            // Wind Direction
-            let deg = data.wind.deg;
-            let dir = deg ? getDirection(deg) : "N/A";
-            wind_dir.textContent = dir; //Math.round(data.current.wind_deg)
-
-            // Sunrise, Sunset
-            let sr, ss;
-
-            sr = epochToLocalTime(data.sys.sunrise);
-            ss = epochToLocalTime(data.sys.sunset);
-
-            sunrise.textContent = sr;
-            sunset.textContent = ss;
-        }).catch(err => {
-            console.log(err);
-        });
-
-        return;
+    // Wind Speed
+    wind_speed.textContent = Math.round((data.wind.speed * 18) / 5) + " km/h";
+    if (!isNaN(data.wind.gust)) {
+        wind_gust.textContent = Math.round((data.wind.gust * 18) / 5) + " km/h";
+    }
+    else {
+        document.getElementById("wind-gust").style.display = "none";
     }
 
-    getLocation().then(data => {
-        let latitude = data.latitude;
-        let longitude = data.longitude;
-        let city = data.city;
-        let url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + key1;
+    // Wind Direction
+    let deg = data.wind.deg;
+    let dir = deg ? getDirection(deg) : "N/A";
+    wind_dir.textContent = dir; //Math.round(data.current.wind_deg)
 
-        makeAJAXRequest("GET", url).then(data => {
-            // Timezone, Status
-            city_obj.textContent = city;
-            status_obj.textContent = data.current.weather[0].description;
-            desc_img.src = "images/" + data.current.weather[0].icon + "@2x.png";
+    // Sunrise, Sunset
+    let sr, ss;
 
-            // Temperature, Feels Like
-            temp.textContent = Math.round(data.current.temp) + "°C";
-            feelsLike.textContent = Math.round(data.current.feels_like) + "°C";
+    sr = epochToLocalTime(data.sys.sunrise);
+    ss = epochToLocalTime(data.sys.sunset);
 
-            // Wind Speed
-            wind_speed.textContent = Math.round((data.current.wind_speed * 18) / 5) + " km/h";
-            if (!isNaN(data.current.wind_gust)) {
-                wind_gust.textContent = Math.round((data.current.wind_gust * 18) / 5) + " km/h";
-            }
-            else {
-                document.getElementById("wind-gust").style.display = "none";
-            }
-            
-            // Wind Direction
-            let deg = data.current.wind_deg;
-            let dir = getDirection(deg);
-            wind_dir.textContent = dir; //Math.round(data.current.wind_deg)
+    sunrise.textContent = sr;
+    sunset.textContent = ss;
+}
 
-            // Sunrise, Sunset
-            let sr, ss;
+function getWeatherData(city) {
+    let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + key1;
 
-            sr = epochToLocalTime(data.current.sunrise);
-            ss = epochToLocalTime(data.current.sunset);
-
-            sunrise.textContent = sr;
-            sunset.textContent = ss;
-
-        }).catch(err => {
-            console.log(err);
-        });
+    makeAJAXRequest("GET", url).then(data => {
+        updateUI(data);
     }).catch(err => {
         console.log(err);
     });
+}
+
+function loadAPI(opt) {
+    if (opt == true) // update only
+    {
+        let city = input_city.value;
+        getWeatherData(city);
+        return;
+    }
+    else {
+        getLocation().then(data => { // first time load
+            getWeatherData(data.city);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 }
 
 function getDirection(deg) {

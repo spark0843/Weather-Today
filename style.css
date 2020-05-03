@@ -16,7 +16,7 @@ h1 {
     text-align: center;
 }
 
-.label, .city-label {
+p, .label, .city-label {
     font-family: "Roboto", sans-serif;
     font-size: 1em;
     font-weight: 100;
@@ -48,6 +48,7 @@ h1 {
 #city:hover {
     color: red;
     transition: color 0.5s ease-in-out;
+    cursor: pointer;
 }
 
 #input-city {
