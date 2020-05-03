@@ -105,7 +105,6 @@ function sendRequestAndUpdate(url) {
 function getWeatherData(city, coords) {
     let city_type = typeof city;
     if (coords && city_type != "string") { // lat and lon specified
-        console.log(city);
         let url = "https://us1.locationiq.com/v1/reverse.php?key=1ace468b6ab00c&lat=" + city.lat + "&lon=" + city.lon + "&format=json";
         makeAJAXRequest("GET", url).then(data => {
             city = data.address.city;
