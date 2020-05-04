@@ -1,98 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-ca">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Today</title>
-    <link href="https://fonts.googleapis.com/css2?family=Girassol&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css" />
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Today | Get Today's Weather Forecast</title>
+  <link href="https://fonts.googleapis.com/css2?family=Girassol&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <meta name="description"
+    content="Weather Today is a web application that lets you see the current day forecast for any city in the world.">
 </head>
+
 <body>
-    <div class="container">
-        <h1>Weather Today</h1>
+  <div class="container">
+    <header>
+      <h1>Weather Today</h1>
 
-        <div class="container">
-            <p>You can change the location by clicking on it and entering a city name.</p>
+      <div class="container">
+        <p>You can change the location by clicking on it and entering a city name.</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="container" id="city-container">
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto">
+            <span class="label" id=>Location</span>
+            <span class="value" id="city">...</span>
+            <input type="text" id="input-city" class="inactive" name="">
+          </div>
         </div>
-
-        <div class="container" id="city-container">
+      </div>
+  
+      <div class="container" id="temp-container">
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto" id="desc">
+            <span class="label">Description</span>
+            <span class="value" id="status">...</span>
+          </div>
+          <div class="col-md-auto">
+            <img src="images/10d@2x.png" alt="" id="desc-img">
+          </div>
+        </div>
+      </div>
+  
+      <div class="container">
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto">
+            <span class="label">Temperature</span>
+            <span class="value" id="dv0">...</span>
+          </div>
+          <div class="col-md-auto">
+            <span class="label">Feels Like</span>
+            <span class="value" id="dv1">...</span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="container">
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto" id="wind-container">
             <div class="row justify-content-md-center">
-                <div class="col-md-auto">
-                    <span class="label" id=>Location</span>
-                    <span class="value" id="city">...</span>
-                    <input type="text" id="input-city" class="inactive" name="">
-                </div>
+              <div class="col-md-auto" id="wind-speed">
+                <span class="label">Wind Speed</span>
+                <span class="value" id="dv2">...</span>
+              </div>
             </div>
-        </div>
-
-        <div class="container" id="temp-container">
             <div class="row justify-content-md-center">
-                <div class="col-md-auto" id="desc">
-                    <span class="label">Description</span>
-                    <span class="value" id="status">...</span>
-                </div>
-                <div class="col-md-auto">
-                    <img src="images/10d@2x.png" alt="" id="desc-img">
-                </div>
+              <div class="col-md-auto" id="wind-gust">
+                <span class="label">Wind Gust</span>
+                <span class="value" id="dv3">...</span>
+              </div>
             </div>
-        </div>
-
-        <div class="container">
             <div class="row justify-content-md-center">
-                <div class="col-md-auto">
-                    <span class="label">Temperature</span>
-                    <span class="value" id="dv0">...</span>
-                </div>
-                <div class="col-md-auto">
-                    <span class="label">Feels Like</span>
-                    <span class="value" id="dv1">...</span>
-                </div>
+              <div class="col-md-auto" id="wind-dir">
+                <span class="label">Wind Direction</span>
+                <span class="value" id="dv4">...</span>
+              </div>
             </div>
-        </div>
-
-        <div class="container">
+          </div>
+  
+          <div class="col-md-auto">
             <div class="row justify-content-md-center">
-                <div class="col-md-auto" id="wind-container">      
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-auto" id="wind-speed">
-                            <span class="label">Wind Speed</span>
-                            <span class="value" id="dv2">...</span>
-                        </div>
-                    </div>
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-auto" id="wind-gust">
-                            <span class="label">Wind Gust</span>
-                            <span class="value" id="dv3">...</span>
-                        </div>
-                    </div>
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-auto" id="wind-dir">
-                            <span class="label">Wind Direction</span>
-                            <span class="value" id="dv4">...</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-auto"> 
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-auto">
-                            <span class="label">Sunrise</span>
-                            <span class="value" id="dv5">...</span>
-                        </div>
-                    </div>
-                    <div class="row justify-content-md-center"></div>
-                        <div class="col-md-auto">
-                            <span class="label">Sunset</span>
-                            <span class="value" id="dv6">...</span>
-                        </div>
-                    </div>
-                </div>
+              <div class="col-md-auto">
+                <span class="label">Sunrise</span>
+                <span class="value" id="dv5">...</span>
+              </div>
             </div>
+            <div class="row justify-content-md-center"></div>
+            <div class="col-md-auto">
+              <span class="label">Sunset</span>
+              <span class="value" id="dv6">...</span>
+            </div>
+          </div>
         </div>
-    </div>
-    <script src="config.js"></script>
-    <script src="script.js"></script>
+      </div>
+    </main>
+  </div>
+  </div>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
