@@ -11,9 +11,9 @@ const wind_dir = document.getElementById("dv4");
 const sunrise = document.getElementById("dv5");
 const sunset = document.getElementById("dv6");
 const city_obj = document.getElementById("city");
-const status_obj = document.getElementById("status");
+const desc_obj = document.getElementById("desc");
 const desc_img = document.getElementById("desc-img");
-const city = document.getElementById("city");
+//const city = document.getElementById("city");
 const input_city = document.getElementById("input-city");
 
 // change location by clicking
@@ -23,7 +23,6 @@ city_obj.addEventListener("click", () => {
   input_city.value = city_obj.textContent;
   input_city.focus();
   input_city.select();
-
 });
 
 // update location
@@ -63,7 +62,7 @@ function updateUI(data) {
 
   // Timezone, Status
   city_obj.textContent = city;
-  status_obj.textContent = data.weather[0].description;
+  desc_obj.textContent = data.weather[0].description;
   desc_img.src = "images/" + data.weather[0].icon + "@2x.png";
 
   // Temperature, Feels Like

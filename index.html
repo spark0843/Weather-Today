@@ -17,84 +17,65 @@
   <div class="container">
     <header>
       <h1>Weather Today</h1>
-
       <div class="container">
-        <p>You can change the location by clicking on it and entering a city name.</p>
+        <p>
+          <span>
+            Change the location by clicking on it and 
+            entering another city name.
+          </span>
+        </p>
       </div>
+      <hr />
     </header>
 
-    <main>
-      <div class="container" id="city-container">
-        <div class="row justify-content-md-center">
-          <div class="col-md-auto">
-            <span class="label" id=>Location</span>
-            <span class="value" id="city">...</span>
-            <input type="text" id="input-city" class="inactive" name="">
-          </div>
-        </div>
-      </div>
-  
-      <div class="container" id="temp-container">
-        <div class="row justify-content-md-center">
-          <div class="col-md-auto" id="desc">
-            <span class="label">Description</span>
-            <span class="value" id="status">...</span>
-          </div>
-          <div class="col-md-auto">
-            <img src="images/10d@2x.png" alt="" id="desc-img">
-          </div>
-        </div>
-      </div>
-  
+    <main id="main-container">
       <div class="container">
-        <div class="row justify-content-md-center">
-          <div class="col-md-auto">
-            <span class="label">Temperature</span>
-            <span class="value" id="dv0">...</span>
-          </div>
-          <div class="col-md-auto">
-            <span class="label">Feels Like</span>
-            <span class="value" id="dv1">...</span>
+        <!-- Location -->
+        <div class="data-div">
+          <span class="value" id="city">...</span>
+          <input type="text" id="input-city" class="inactive" name="">
+        </div>
+        <!-- Description -->
+        <div class="data-div">
+          <span class="value" id="desc">...</span><br />
+          <div id="img-div">
+            <img src="images/10d@2x.png" alt="" id="desc-img" class="img-fluid">
+            <span class="value" id="dv0" style="display:inline;">...</span>
           </div>
         </div>
-      </div>
-  
-      <div class="container">
-        <div class="row justify-content-md-center">
-          <div class="col-md-auto" id="wind-container">
-            <div class="row justify-content-md-center">
-              <div class="col-md-auto" id="wind-speed">
-                <span class="label">Wind Speed</span>
-                <span class="value" id="dv2">...</span>
-              </div>
-            </div>
-            <div class="row justify-content-md-center">
-              <div class="col-md-auto" id="wind-gust">
-                <span class="label">Wind Gust</span>
-                <span class="value" id="dv3">...</span>
-              </div>
-            </div>
-            <div class="row justify-content-md-center">
-              <div class="col-md-auto" id="wind-dir">
-                <span class="label">Wind Direction</span>
-                <span class="value" id="dv4">...</span>
-              </div>
-            </div>
-          </div>
-  
-          <div class="col-md-auto">
-            <div class="row justify-content-md-center">
-              <div class="col-md-auto">
-                <span class="label">Sunrise</span>
-                <span class="value" id="dv5">...</span>
-              </div>
-            </div>
-            <div class="row justify-content-md-center"></div>
-            <div class="col-md-auto">
+      </div><br />
+
+      <div class="container" style="margin-top: -.75em;">
+        <div class="data-div2">
+          <div class="row">
+            <div class="col-5 offset-1 A">
+              <span class="label">Feels like</span>
+              <span class="label">Wind Speed</span>
+              <span class="label">Wind Gust</span>
+              <span class="label">Wind Direction</span>
+              <span class="label">Sunrise</span>
               <span class="label">Sunset</span>
+            </div>
+            <div class="col-5 B">
+              <span class="value" id="dv1">...</span>
+              <span class="value" id="dv2">...</span>
+              <span class="value" id="dv3">...</span>
+              <span class="value" id="dv4">...</span>
+              <span class="value" id="dv5">...</span>
               <span class="value" id="dv6">...</span>
             </div>
           </div>
+        </div>
+      </div>
+      <hr />
+      <div id="copyright" class="container">
+        <div id="copyright-div">
+          <span>This web application was created using HTML5, CSS3, and JavaScript by Stephen Park.</span><br /><br />
+          Last updated on May 04, 2020
+        </div><br />
+        <div class="container">
+          <span id="visit-text">Visit my Github here!</span>&nbsp;
+          <a href="https://github.com/spark0843"><img src="images/GitHub-Mark-32px.png" alt="Github Logo"></a>
         </div>
       </div>
     </main>

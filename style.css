@@ -1,71 +1,131 @@
 body {
-    background-color: #2670AF;
-    color: white;
-    margin: 0;
-    -webkit-user-select: none;  /* Chrome all / Safari all */
-    -moz-user-select: none;     /* Firefox all */
-    -ms-user-select: none;      /* IE 10+ */
-    user-select: none;          /* Likely future */   
+  background-color: #2670AF;
+  color: white;
 }
 
 h1 {
-    font-family: "Girassol", cursive;
-    font-size: 3em;
-    font-weight: 300;
-    margin: .5em 0 .3em 0;
-    text-align: center;
+  font-family: "Girassol", cursive;
+  font-size: 3em;
+  font-weight: 300;
+  margin: .25em 0 0em 0;
+  text-align: center;
 }
 
-p, .label, .city-label {
-    font-family: "Roboto", sans-serif;
-    font-size: 1em;
-    font-weight: 100;
-    display: block;
+hr {
+  background-image: rgb(150, 199, 238);
+  background-image: linear-gradient(90deg, rgba(150, 199, 238, 0.05) 0%,
+                                           rgba(150, 199, 238, 0.2) 50%,
+                                           rgba(150, 199, 238, 0.05) 100%);
+  border: 0;
+  height: 1px;
 }
 
-.value, .city-value {
-    font-size: 1.5em;
-    font-weight: 300;
+span {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
 }
 
-.container {
-    margin-bottom: .75em;
-    text-align: center;
+p {
+  text-align: center;
 }
 
-#status {
-    text-transform: capitalize;
+a {
+  color: rgb(146, 192, 235);
 }
 
-#desc {
-    margin: auto 0;
+a:hover {
+  color: red;
 }
 
-#city-container, #temp-container {
-    margin: 0;
+.data-div {
+  text-align: center;
+  margin: auto;
+  width: 50%;
 }
 
-#city:hover {
-    color: red;
-    transition: color 0.5s ease-in-out;
-    cursor: pointer;
+.value {
+  font-weight: 300;
+  text-align: center;
+  display: block;
 }
 
-#input-city {
-    margin-top: .25em;
-    height: 24.7px;
+.label {
+  font-size: .8em;
+  padding-bottom: 2em;
+  display: block;
+}
+
+.A {
+  text-align: right;
+}
+
+.B .value {
+  text-align: left;
+  padding-bottom: 1.35em;
 }
 
 .inactive {
-    display: none;
+  display: none;
 }
 
-@media screen and (max-width: 768px) {
-    #desc {
-        margin-top: .5em;
-    }
-    #wind-container {
-        margin-bottom: .5em;
-    }
+#main-container {
+  padding-top: .5em;
 }
-  
+
+/* city */
+#city {
+  transition: color 0.2s ease-in-out;
+}
+
+#city:hover {
+  color: red;
+  cursor: pointer;
+}
+
+#input-city {
+  height: 19px;
+  width: 100px;
+  text-align:center;
+
+}
+
+/* description */
+#desc {
+  font-size: 1.2em;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+/* image */
+
+#img-div {
+  display: inline-block;
+  position: relative;
+  margin-top: -1.25em;
+}
+
+#desc-img {
+  width: 64px;
+}
+
+#dv0 {
+  position: absolute;
+  top: 1.35em;
+}
+
+#status {
+  font-size: .8em;
+}
+
+#copyright {
+  font-size: .8em;
+  text-align: center;
+}
+
+#copyright-div {
+  text-align: center;
+}
+
+#visit-text {
+  vertical-align: .75em;
+}
