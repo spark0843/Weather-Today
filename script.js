@@ -74,7 +74,8 @@ function updateUI(data) {
   if (!isNaN(data.wind.gust)) {
     wind_gust.textContent = Math.round((data.wind.gust * 18) / 5) + " km/h";
   } else {
-    document.getElementById("wind-gust").style.display = "none";
+    var objs = document.querySelectorAll(".wind-gust");
+    objs.forEach(obj => obj.style.display = "none");
   }
 
   // Wind Direction
